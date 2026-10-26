@@ -90,9 +90,12 @@ instead of being routed through GLPI's front controller.
 Fix: an explicit `FallbackResource` directive routes any non-existent
 path through `index.php`, which GLPI's own router then dispatches:
 
+> Hostname below is a placeholder (`example.com.br`) — see the note in
+> the root `README.md`.
+
 ```apache
 <VirtualHost *:80>
-    ServerName srv-glpi.mellotransportes.com.br
+    ServerName srv-glpi.example.com.br
     DocumentRoot /var/www/glpi/public
 
     <Directory /var/www/glpi/public>

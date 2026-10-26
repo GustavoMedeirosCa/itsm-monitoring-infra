@@ -7,11 +7,13 @@ This repo tracks the design decisions, configuration, and step-by-step
 build log for the project — not the deployed application code itself
 (GLPI, Zabbix, etc. are third-party software installed on the server).
 
-> **A note on addresses:** all IPs and network details in this repository
-> use the `192.0.2.0/24` block, reserved by [RFC 5737](https://www.rfc-editor.org/rfc/rfc5737)
-> specifically for documentation and examples — never a real, routable
-> network. Every command and configuration shown was actually run in
-> production; only the addresses were swapped out before publishing.
+> **A note on addresses:** all IPs, hostnames, and the internal Active
+> Directory domain shown in this repository are placeholders — IPs use
+> the `192.0.2.0/24` block, reserved by [RFC 5737](https://www.rfc-editor.org/rfc/rfc5737)
+> specifically for documentation and examples, and the domain appears as
+> `example.com.br`. Every command and configuration shown was actually run
+> in production; only these identifiers were swapped out before
+> publishing. The contact address under **Author**, below, is real.
 
 ## Project Phases
 
@@ -29,8 +31,7 @@ build log for the project — not the deployed application code itself
 
 ### Phase 2 — Monitoring & Communications (in progress)
 - [x] Zabbix server + Grafana dashboards
-- [ ] Mail gateway
-- [ ] Telegram bot integration (GLPI ticket alerts + Zabbix network alerts, zero recurring cost)
+- [x] Telegram bot integration (GLPI ticket alerts + Zabbix network alerts, zero recurring cost)
 
 ## Infrastructure Overview
 

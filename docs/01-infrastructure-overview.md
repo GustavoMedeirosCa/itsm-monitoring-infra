@@ -16,11 +16,13 @@ stack for Mello Transportes.
   running dashboards/tickets for end users
 - **Production IP:** `192.0.2.228` — to be assigned once the legacy
   server is fully decommissioned
-- **DNS / hostname:** `srv-glpi.mellotransportes.com.br`,
+- **DNS / hostname:** `srv-glpi.example.com.br`,
   resolvers `192.0.2.2`, `192.0.2.1`
 
-> Addresses above use the `192.0.2.0/24` documentation range (RFC 5737),
-> not the real internal network — see the note in the root `README.md`.
+> Addresses and the domain above are placeholders — IPs use the
+> `192.0.2.0/24` documentation range (RFC 5737), and the domain appears as
+> `example.com.br` — not the real internal network. See the note in the
+> root `README.md`.
 
 ## Why a staged cutover
 

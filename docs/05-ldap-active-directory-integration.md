@@ -1,12 +1,18 @@
 # 05 — Active Directory / LDAP Integration
 
+> Addresses and the domain in this page are placeholders
+> (`192.0.2.0/24` per RFC 5737, domain as `example.com.br`) — see the
+> note in the root `README.md`. Login names of real, active directory
+> objects are described rather than quoted verbatim, since this is a
+> live production directory.
+
 ## Why integrate with Active Directory
 
 Up to this point, GLPI relied only on its four local accounts. That does
 not scale: every employee would need a separate GLPI-only password to
 remember, and offboarding would require remembering to disable two
 accounts instead of one. Mello Transportes already runs a corporate
-Active Directory (domain `mellotransportes.com.br`) for Windows login and
+Active Directory (domain `example.com.br`) for Windows login and
 Microsoft 365 — pointing GLPI at the same directory means one identity,
 one password, and one place to disable a departing employee's access.
 
@@ -38,16 +44,13 @@ Configured under **Configuração > Autenticação > Diretórios LDAP**:
 |---|---|---|
 | Servidor | `192.0.2.2` | The domain controller, `SRV-AD` |
 | Porta LDAP | `389` | Standard unencrypted LDAP port (internal network only) |
-| BaseDN | `DC=mellotransportes,DC=com,DC=br` | Root of the domain's directory tree |
+| BaseDN | `DC=example,DC=com,DC=br` | Root of the domain's directory tree |
 | Usar vinculação (bind) | Sim | Anonymous bind is disabled on this AD, as it should be |
-| RootDN | `svc-glpi@mellotransportes.com.br` | **UPN format**, not a full `CN=...` distinguished name — both work against AD, UPN is shorter and easier to get right |
+| RootDN | `svc-glpi@example.com.br` | **UPN format**, not a full `CN=...` distinguished name — both work against AD, UPN is shorter and easier to get right |
 | Campo de Login | `samaccountname` | GLPI's default here is `uid`, which is an OpenLDAP convention — Active Directory doesn't populate `uid` by default, so authentication silently fails until this is changed |
 | Campo de sincronização | `objectguid` | A stable, AD-generated identifier that survives a username change — safer than tracking users by their login name |
 | Servidor padrão | Sim | Only directory configured; must be the default for login to use it |
 | Ativo | Sim | An inactive directory is invisible to both login and import |
-
-> Address above uses the `192.0.2.0/24` documentation range (RFC 5737) —
-> see the note in the root `README.md`.
 
 GLPI ships a built-in **"Testar"** button on this form that validates, in
 order: TCP connectivity, the Base DN, the LDAP URI, the bind
@@ -67,13 +70,12 @@ Running it with no filter returned **628 entries** — but a scroll through
 the list showed it wasn't 628 employees. Active Directory stores several
 kinds of objects under the same tree GLPI was searching:
 
-- **Security groups** — `Administradores`, `Administradores de Chaves
-  Empresariais`, `Administradores de esquema`, and dozens of other
-  built-in AD groups, all with the same "person-shaped" listing as a
-  real user.
-- **Azure AD Connect service accounts** — `ADSyncAdmins`, `ADSyncBrowse`,
-  `ADSyncOperators`, and similar, created automatically by the
-  Microsoft 365 directory sync tool.
+- **Security groups** — the built-in "Administrators", "Enterprise Key
+  Admins", "Schema Admins" groups, and dozens of other built-in AD
+  groups, all with the same "person-shaped" listing as a real user.
+- **Azure AD Connect service accounts** — the automatic sync accounts
+  created by the Microsoft 365 directory sync tool (named along the
+  lines of `ADSyncAdmins`, `ADSyncBrowse`, `ADSyncOperators`).
 
 Importing all 628 as-is would have filled GLPI's user list with security
 groups and sync robots labeled as "users" — confusing at best, and
@@ -103,15 +105,16 @@ A `person`-category filter still doesn't guarantee *human employee*.
 Reviewing the 419 remaining entries turned up two more categories worth
 excluding by hand before importing:
 
-- **Built-in AD system accounts**: `Administrador` (the domain admin
-  account), `krbtgt` (an internal Kerberos account, never a real login),
-  `Convidado` (the built-in guest account), `DefaultAccount`, and
-  `MSOL_b407c14a5521` (a Microsoft 365 sync account that happens to be
-  `person`-category).
-- **Functional / shared accounts**: logins like `Scanner`, `Sala_dois`,
-  `Qualidade`, and `Mello` are AD user objects created for a printer,
-  a meeting room, a department, and a shared mailbox respectively — not
-  individual employees.
+- **Built-in AD system accounts**: the domain Administrator account, the
+  `krbtgt` account (an internal Kerberos account present on every AD
+  domain by design — never a real login), the built-in Guest account, the
+  default local admin account, and a Microsoft 365 directory-sync account
+  (Microsoft always names these with an `MSOL_` prefix).
+- **Functional / shared accounts**: a handful of AD user objects that
+  turned out to represent a printer, a meeting room, a department, and a
+  shared mailbox — not individual employees. Exact login names are
+  omitted here since these are live accounts on a real production
+  directory.
 
 These 9 were unchecked manually before running the import, leaving
 **410 real user accounts** imported successfully.
