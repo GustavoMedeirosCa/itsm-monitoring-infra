@@ -23,14 +23,12 @@ build log for the project — not the deployed application code itself
 - [x] Default credentials rotated, demo data disabled
 - [x] Automatic actions verified running in CLI mode via cron
 - [x] Active Directory / LDAP integration
-- [ ] Group Policy (GPO) rollout of GLPI Agent
-- [ ] Self-Service portal UX configuration
-- [ ] Scheduled/portable inventory via cron
+- [x] Group Policy (GPO) rollout of GLPI Agent
+- [x] Self-Service portal UX configuration
 
 ### Phase 2 — Monitoring & Communications (in progress)
 - [x] Zabbix server + Grafana dashboards
-- [ ] Mail gateway
-- [ ] Telegram bot integration (GLPI ticket alerts + Zabbix network alerts, zero recurring cost)
+- [x] Telegram bot integration (GLPI ticket alerts + Zabbix network alerts, zero recurring cost)
 
 ## Infrastructure Overview
 
