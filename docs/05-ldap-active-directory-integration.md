@@ -4,7 +4,8 @@
 > (`192.0.2.0/24` per RFC 5737, domain as `example.com.br`) — see the
 > note in the root `README.md`. Login names of real, active directory
 > objects are described rather than quoted verbatim, since this is a
-> live production directory.
+> live production directory, and the entry counts below are illustrative
+> approximations rather than the exact production numbers.
 
 ## Why integrate with Active Directory
 
@@ -30,7 +31,7 @@ ID. Both were rejected on purpose:
   password rotation on GLPI's side could risk the cloud identity sync —
   two unrelated systems should not share credentials.
 
-Instead, a new AD user, `svc-glpi`, was created specifically for this
+Instead, a new AD user, `svc-helpdesk`, was created specifically for this
 purpose: a non-expiring, non-interactive-login-friendly password, and no
 elevated group membership. If it's ever compromised, the blast radius is
 "can read directory attributes" — not "can log into a workstation" or
@@ -46,7 +47,7 @@ Configured under **Configuração > Autenticação > Diretórios LDAP**:
 | Porta LDAP | `389` | Standard unencrypted LDAP port (internal network only) |
 | BaseDN | `DC=example,DC=com,DC=br` | Root of the domain's directory tree |
 | Usar vinculação (bind) | Sim | Anonymous bind is disabled on this AD, as it should be |
-| RootDN | `svc-glpi@example.com.br` | **UPN format**, not a full `CN=...` distinguished name — both work against AD, UPN is shorter and easier to get right |
+| RootDN | `svc-helpdesk@example.com.br` | **UPN format**, not a full `CN=...` distinguished name — both work against AD, UPN is shorter and easier to get right |
 | Campo de Login | `samaccountname` | GLPI's default here is `uid`, which is an OpenLDAP convention — Active Directory doesn't populate `uid` by default, so authentication silently fails until this is changed |
 | Campo de sincronização | `objectguid` | A stable, AD-generated identifier that survives a username change — safer than tracking users by their login name |
 | Servidor padrão | Sim | Only directory configured; must be the default for login to use it |
@@ -66,8 +67,8 @@ de usuários de um diretório LDAP > Importar novos usuários**) runs a
 search against the directory and lists every match with a checkbox, ready
 to select and import.
 
-Running it with no filter returned **628 entries** — but a scroll through
-the list showed it wasn't 628 employees. Active Directory stores several
+Running it with no filter returned **roughly 600 entries** — but a scroll
+through the list showed it wasn't 600 employees. Active Directory stores several
 kinds of objects under the same tree GLPI was searching:
 
 - **Security groups** — the built-in "Administrators", "Enterprise Key
@@ -77,7 +78,7 @@ kinds of objects under the same tree GLPI was searching:
   created by the Microsoft 365 directory sync tool (named along the
   lines of `ADSyncAdmins`, `ADSyncBrowse`, `ADSyncOperators`).
 
-Importing all 628 as-is would have filled GLPI's user list with security
+Importing all of them as-is would have filled GLPI's user list with security
 groups and sync robots labeled as "users" — confusing at best, and
 actively wrong for anything that reports on headcount or assigns
 tickets by user.
@@ -95,14 +96,14 @@ including the import search. Setting it to:
 restricts every search to objects that are both class `user` and
 category `person` — which excludes `group` objects and Azure AD
 Connect's managed service accounts (a different, non-`person` object
-category) in one step. Re-running the import search afterward dropped
-the result from 628 to **419** — confirmation the filter was doing its
+category) in one step. Re-running the import search afterward cut the
+result down to **roughly 400** — confirmation the filter was doing its
 job.
 
 ## Remaining manual cleanup
 
 A `person`-category filter still doesn't guarantee *human employee*.
-Reviewing the 419 remaining entries turned up two more categories worth
+Reviewing the remaining entries turned up two more categories worth
 excluding by hand before importing:
 
 - **Built-in AD system accounts**: the domain Administrator account, the
@@ -116,8 +117,8 @@ excluding by hand before importing:
   omitted here since these are live accounts on a real production
   directory.
 
-These 9 were unchecked manually before running the import, leaving
-**410 real user accounts** imported successfully.
+A handful were unchecked manually before running the import, leaving
+**roughly 390 real user accounts** imported successfully.
 
 > Some department/process-style logins (e.g. names tied to internal
 > workflows) likely still slipped through this pass, since they follow

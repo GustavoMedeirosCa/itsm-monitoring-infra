@@ -28,7 +28,7 @@ metrics pulled directly from GLPI (open vs. closed ticket counts).
 | Dashboard | Panels | Data source |
 |---|---|---|
 | **GLPi** | CPU, free memory, disk usage (`/`), server uptime, chamados abertos vs. fechados | Zabbix (agent) + GLPI REST API |
-| **pfSense — Links WAN** | Per-link status (`WAN_ALGAR`, `WAN_BLINK`), WAN traffic graph | Zabbix (SNMP) |
+| **pfSense — Links WAN** | Per-link status (`WAN_LINK_A`, `WAN_LINK_B`), WAN traffic graph | Zabbix (SNMP) |
 
 Both dashboards are shared internally via Grafana's **"Share internally"**
 short links, with auto-refresh enabled, so they can be left open on a wall
@@ -73,9 +73,9 @@ symptom.
 
 ### Access control on the API client
 
-The dedicated GLPI API client used by Grafana ("Grafana — read-only
-dashboard") is restricted to a single-IP allowlist (the Grafana server's
-own address) under **Configuração > API > Clients d'API**. Verified
+The dedicated GLPI API client used by Grafana is restricted to a
+single-IP allowlist (the Grafana server's own address) under
+**Configuração > API > Clients d'API**. Verified
 working as intended: a direct request from outside that one IP is
 rejected with `ERROR_NOT_ALLOWED_IP` before it ever reaches ticket data.
 
@@ -89,7 +89,7 @@ by date.
 
 ## pfSense WAN link status: a false "DOWN"
 
-The **WAN_BLINK** panel (a PPPoE link) initially showed **DOWN** in deep
+The **WAN_LINK_B** panel (a PPPoE link) initially showed **DOWN** in deep
 red, while pfSense's own gateway monitor reported it `Online` with normal
 latency and zero packet loss. Root cause: the panel reads the interface's
 SNMP `ifOperStatus` value and maps it to UP/DOWN, and the original mapping
@@ -140,9 +140,6 @@ use case, and the reason the `session_token` refresh fix above mattered.
 
 ## Still open
 
-- [ ] Mail gateway
-- [ ] Telegram bot integration (GLPI ticket alerts + Zabbix network
-      alerts, zero recurring cost)
 - [ ] Additional GLPI ticket metrics (by technician/group, by category,
       average resolution time) — scoped but not built yet
 - [ ] Paginate or date-filter the `/Ticket` query ahead of the 1000-ticket

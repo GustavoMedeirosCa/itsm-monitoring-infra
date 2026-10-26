@@ -13,7 +13,7 @@ build log for the project — not the deployed application code itself
 > specifically for documentation and examples, and the domain appears as
 > `example.com.br`. Every command and configuration shown was actually run
 > in production; only these identifiers were swapped out before
-> publishing. The contact address under **Author**, below, is real.
+> publishing.
 
 ## Project Phases
 
@@ -75,4 +75,4 @@ itsm-infra/
 
 ## Author
 
-Maintained by TI — Mello Transportes (`ti@mellotransportes.com.br`).
+Maintained by TI — Mello Transportes.
