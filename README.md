@@ -27,8 +27,8 @@ build log for the project — not the deployed application code itself
 - [ ] Self-Service portal UX configuration
 - [ ] Scheduled/portable inventory via cron
 
-### Phase 2 — Monitoring & Communications (planned)
-- [ ] Zabbix server + Grafana dashboards
+### Phase 2 — Monitoring & Communications (in progress)
+- [x] Zabbix server + Grafana dashboards
 - [ ] Mail gateway
 - [ ] Telegram bot integration (GLPI ticket alerts + Zabbix network alerts, zero recurring cost)
 
@@ -43,6 +43,7 @@ build log for the project — not the deployed application code itself
 | ITSM application | GLPI 11 |
 | Current IP (temporary) | `192.0.2.229` |
 | Production IP (planned) | `192.0.2.228` |
+| Monitoring stack | Zabbix + Grafana, `192.0.2.230` |
 
 See [`docs/`](./docs) for the detailed build log and rationale behind each
 configuration decision.
@@ -57,7 +58,8 @@ itsm-infra/
     ├── 02-base-os-and-network.md
     ├── 03-lamp-and-glpi-installation.md
     ├── 04-security-hardening.md
-    └── 05-ldap-active-directory-integration.md
+    ├── 05-ldap-active-directory-integration.md
+    └── 06-monitoring-zabbix-grafana.md
 ```
 
 ## Conventions
