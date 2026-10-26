@@ -1,7 +1,11 @@
-# Mello Transportes — ITSM & Monitoring Infrastructure
+# Acme Logistics — ITSM & Monitoring Infrastructure
 
-Infrastructure-as-documentation repository for Mello Transportes' internal
+Infrastructure-as-documentation repository for Acme Logistics' internal
 IT Service Management and Monitoring stack, built on Debian 12 (Bookworm).
+
+> **A note on the company name:** "Acme Logistics" is a fictional stand-in.
+> This is a real build log from a real company's infrastructure, but the
+> company's identity is not published here.
 
 This repo tracks the design decisions, configuration, and step-by-step
 build log for the project — not the deployed application code itself
@@ -11,7 +15,7 @@ build log for the project — not the deployed application code itself
 > Directory domain shown in this repository are placeholders — IPs use
 > the `192.0.2.0/24` block, reserved by [RFC 5737](https://www.rfc-editor.org/rfc/rfc5737)
 > specifically for documentation and examples, and the domain appears as
-> `example.com.br`. Every command and configuration shown was actually run
+> `example.com`. Every command and configuration shown was actually run
 > in production; only these identifiers were swapped out before
 > publishing.
 
@@ -67,7 +71,7 @@ itsm-infra/
 - Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/)
   (`feat:`, `fix:`, `docs:`, `chore:`, ...).
 - Documentation is written in English; the deployed applications
-  (GLPI, etc.) remain in Portuguese for end users at Mello Transportes.
+  (GLPI, etc.) remain in Portuguese for end users at Acme Logistics.
 - Credentials are **never** committed to this repository. See
   `.gitignore` and keep secrets in a password manager instead.
 - Live security posture (current SSH policy, open hardening items) is
@@ -75,4 +79,4 @@ itsm-infra/
 
 ## Author
 
-Maintained by TI — Mello Transportes.
+Maintained by TI — Acme Logistics.

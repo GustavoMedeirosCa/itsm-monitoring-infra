@@ -4,7 +4,7 @@
 
 Replace the legacy GLPI server with a fresh, secure, well-documented
 Debian 12 deployment, as the first piece of a broader ITSM + Monitoring
-stack for Mello Transportes.
+stack for the company.
 
 ## Topology
 
@@ -16,12 +16,12 @@ stack for Mello Transportes.
   running dashboards/tickets for end users
 - **Production IP:** `192.0.2.228` — to be assigned once the legacy
   server is fully decommissioned
-- **DNS / hostname:** `srv-glpi.example.com.br`,
+- **DNS / hostname:** `srv-glpi.example.com`,
   resolvers `192.0.2.2`, `192.0.2.1`
 
 > Addresses and the domain above are placeholders — IPs use the
 > `192.0.2.0/24` documentation range (RFC 5737), and the domain appears as
-> `example.com.br` — not the real internal network. See the note in the
+> `example.com` — not the real internal network. See the note in the
 > root `README.md`.
 
 ## Why a staged cutover

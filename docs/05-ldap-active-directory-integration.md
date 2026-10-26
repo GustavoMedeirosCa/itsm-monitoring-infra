@@ -1,7 +1,7 @@
 # 05 — Active Directory / LDAP Integration
 
 > Addresses and the domain in this page are placeholders
-> (`192.0.2.0/24` per RFC 5737, domain as `example.com.br`) — see the
+> (`192.0.2.0/24` per RFC 5737, domain as `example.com`) — see the
 > note in the root `README.md`. Login names of real, active directory
 > objects are described rather than quoted verbatim, since this is a
 > live production directory, and the entry counts below are illustrative
@@ -12,8 +12,8 @@
 Up to this point, GLPI relied only on its four local accounts. That does
 not scale: every employee would need a separate GLPI-only password to
 remember, and offboarding would require remembering to disable two
-accounts instead of one. Mello Transportes already runs a corporate
-Active Directory (domain `example.com.br`) for Windows login and
+accounts instead of one. The company already runs a corporate
+Active Directory (domain `example.com`) for Windows login and
 Microsoft 365 — pointing GLPI at the same directory means one identity,
 one password, and one place to disable a departing employee's access.
 
@@ -45,9 +45,9 @@ Configured under **Configuração > Autenticação > Diretórios LDAP**:
 |---|---|---|
 | Servidor | `192.0.2.2` | The domain controller, `SRV-AD` |
 | Porta LDAP | `389` | Standard unencrypted LDAP port (internal network only) |
-| BaseDN | `DC=example,DC=com,DC=br` | Root of the domain's directory tree |
+| BaseDN | `DC=example,DC=com` | Root of the domain's directory tree |
 | Usar vinculação (bind) | Sim | Anonymous bind is disabled on this AD, as it should be |
-| RootDN | `svc-helpdesk@example.com.br` | **UPN format**, not a full `CN=...` distinguished name — both work against AD, UPN is shorter and easier to get right |
+| RootDN | `svc-helpdesk@example.com` | **UPN format**, not a full `CN=...` distinguished name — both work against AD, UPN is shorter and easier to get right |
 | Campo de Login | `samaccountname` | GLPI's default here is `uid`, which is an OpenLDAP convention — Active Directory doesn't populate `uid` by default, so authentication silently fails until this is changed |
 | Campo de sincronização | `objectguid` | A stable, AD-generated identifier that survives a username change — safer than tracking users by their login name |
 | Servidor padrão | Sim | Only directory configured; must be the default for login to use it |

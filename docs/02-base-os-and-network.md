@@ -39,12 +39,12 @@ iface ens192 inet static
     address 192.0.2.229/24
     gateway 192.0.2.1
     dns-nameservers 192.0.2.2 192.0.2.1
-    dns-search example.com.br
+    dns-search example.com
 ```
 
 > Addresses and the domain above are placeholders — IPs use the
 > `192.0.2.0/24` documentation range (RFC 5737), and the domain appears as
-> `example.com.br` — see the note in the root `README.md`.
+> `example.com` — see the note in the root `README.md`.
 
 Applied with:
 
